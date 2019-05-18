@@ -112,7 +112,7 @@ function insureHasMeta(filePath, callback = () => { }) {
 			let meta = [
 				"---",
 				"title: " + path.basename(filePath, ".md"),
-				"date: " + fecha.format(Date.now(), 'YYYY-MM-DD'),
+				"date: " + fecha.format(Date.now(), 'YYYY-MM-DD HH:mm:SS'),
 				"tags: ",
 				"---",
 			].join(os.EOL)
