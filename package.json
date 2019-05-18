@@ -2,7 +2,7 @@
   "name": "cpto",
   "displayName": "cpto",
   "description": "cpto",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "zhuwang",
   "repository": "git@github.com:superevanzhu/vscode-cpto.git",
   "engines": {
