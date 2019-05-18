@@ -35,4 +35,10 @@ tags:
 我自己的笔记是不包含meta信息的，复制到hexo笔记是自动给它创建。
 
 
+# 定制开发
+- 发布：`vsce publish`
+
+# 插件地址
+https://marketplace.visualstudio.com/items?itemName=zhuwang.sendto
+
 -END-
