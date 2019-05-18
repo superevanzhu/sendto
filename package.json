@@ -2,7 +2,7 @@
   "name": "cpto",
   "displayName": "cpto",
   "description": "copy current file to the assigned directory",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "zhuwang",
   "repository": "git@github.com:superevanzhu/vscode-cpto.git",
   "engines": {

@@ -9,9 +9,23 @@ const fecha = require("fecha")
 
 
 // 我的日志函数。省的每次都写两行代码啊
-function mylog(info) {
-	console.log(info);
-	vscode.window.showInformationMessage(info);
+function mylog(text, level) {
+	switch (level) {
+		case "warn":
+			console.warn(text)
+			vscode.window.showWarningMessage(text);
+			break;
+
+		case "error":
+			console.error(text)
+			vscode.window.showErrorMessage(text);
+			break;
+
+		default:
+			console.log(text);
+			vscode.window.showInformationMessage(text);
+			break;
+	}
 }
 
 // this method is called when your extension is activated
@@ -31,43 +45,48 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('extension.cpto', function () {
 		// The code you place here will be executed every time your command is executed
+		if (!vscode.window.activeTextEditor) {
+			mylog(`请先打开一个文件`, "warn");
+			return;
+		}
 
 		const currentlyOpenTabfilePath = vscode.window.activeTextEditor.document.fileName;
 
 		if (!currentlyOpenTabfilePath || /^Untitled\-/.test(currentlyOpenTabfilePath)) {
-			mylog(`请先打开一个文件`);
-		} else {
-			const workbenchConfig = vscode.workspace.getConfiguration('cpto')
-			if (!workbenchConfig) {
-				mylog(`cpto配置缺失`);
-			} else {
-				const target = workbenchConfig.get('target')
+			mylog(`请先打开一个已存在的文件`, "warn");
 
-				// check target exist and is dir.
-				if (!target) {
-					mylog(`cpto.target配置缺失`);
-				} else {
-					fs.stat(target, (err, stats) => {
-						if (err) {
-							mylog(`${target} ${err ? '不存在' : '存在'}`);
-						} else if (!stats.isDirectory()) {
-							mylog(`${target} 不是目录`);
+			return;
+		}
+		const workbenchConfig = vscode.workspace.getConfiguration('cpto')
+		if (!workbenchConfig) {
+			mylog(`cpto配置缺失`, "error");
+		} else {
+			const target = workbenchConfig.get('target')
+
+			// check target exist and is dir.
+			if (!target) {
+				mylog(`cpto.target配置缺失`, "error");
+			} else {
+				fs.stat(target, (err, stats) => {
+					if (err) {
+						mylog(`${target} ${err ? '不存在' : '存在'}`, "error");
+					} else if (!stats.isDirectory()) {
+						mylog(`${target} 不是目录`, "error");
+					} else {
+						//配置中开启了meta检查。开启，则要确保文章有元信息。
+						if (workbenchConfig.get('meta')) {
+							insureHasMeta(currentlyOpenTabfilePath, (err) => {
+								if (err) {
+									mylog(err, "error");
+								} else {
+									doCp(currentlyOpenTabfilePath, target)
+								}
+							})
 						} else {
-							//配置中开启了meta检查。开启，则要确保文章有元信息。
-							if (workbenchConfig.get('meta')) {
-								insureHasMeta(currentlyOpenTabfilePath, (err) => {
-									if (err) {
-										mylog(err);
-									} else {
-										doCp(currentlyOpenTabfilePath, target)
-									}
-								})
-							} else {
-								doCp(currentlyOpenTabfilePath, target)
-							}
+							doCp(currentlyOpenTabfilePath, target)
 						}
-					})
-				}
+					}
+				})
 			}
 		}
 	});
@@ -119,9 +138,9 @@ function doCp(filePath, target) {
 	let cmd = "cp " + filePath + " " + target;
 	cp.exec(cmd, (err, stdout, stderr) => {
 		if (err) {
-			mylog(err)
+			mylog(err, "error")
 		} else {
-			mylog(`成功复制当前文件到${target}`)
+			mylog(`成功复制当前文件到${target}`, "info")
 		}
 	});
 }
