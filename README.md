@@ -5,12 +5,12 @@
 
 因为我用vscode管理markdown文件，有些文件需要放到hexo静态博客里面，不想每次都手动复制过去，所以做了这个扩展。
 
-在vscode中使用时，`ctr+p`启动命令选择板，输入`sendto`，回车即可。
+在vscode中使用时，`ctr+p`启动命令选择板，输入`cpto`，回车即可。
 
 # 配置
 在settings.json编辑，例如
 ```
-    "sendto":{
+    "cpto":{
         "target":"<目标目录>",
         "meta":true,//是否开启meta检查
     }
@@ -36,6 +36,6 @@ tags:
 
 
 # 定制开发
-先提交到git，完了之后发布：`vsce publish`。发布成功，一般要等几分钟，插件市场才会看到。[插件地址](https://marketplace.visualstudio.com/items?itemName=zhuwang.sendto)
+先提交到git，完了之后发布：`vsce publish`。发布成功，一般要等几分钟，插件市场才会看到。[插件地址](https://marketplace.visualstudio.com/items?itemName=zhuwang.cpto)
 
 -END-

@@ -1,10 +1,10 @@
 {
-  "name": "sendto",
-  "displayName": "sendto",
-  "description": "sendto",
+  "name": "cpto",
+  "displayName": "cpto",
+  "description": "cpto",
   "version": "0.0.5",
   "publisher": "zhuwang",
-  "repository": "git@github.com:superevanzhu/sendto.git",
+  "repository": "git@github.com:superevanzhu/vscode-cpto.git",
   "engines": {
     "vscode": "^1.34.0"
   },
@@ -12,14 +12,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sendto"
+    "onCommand:extension.cpto"
   ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "extension.sendto",
-        "title": "Send To"
+        "command": "extension.cpto",
+        "title": "Copy To"
       }
     ]
   },

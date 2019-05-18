@@ -24,12 +24,12 @@ function activate(context) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "sendto" is now active!');
+	console.log('Congratulations, your extension "cpto" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.sendto', function () {
+	let disposable = vscode.commands.registerCommand('extension.cpto', function () {
 		// The code you place here will be executed every time your command is executed
 
 		const currentlyOpenTabfilePath = vscode.window.activeTextEditor.document.fileName;
@@ -37,15 +37,15 @@ function activate(context) {
 		if (!currentlyOpenTabfilePath || /^Untitled\-/.test(currentlyOpenTabfilePath)) {
 			mylog(`请先打开一个文件`);
 		} else {
-			const workbenchConfig = vscode.workspace.getConfiguration('sendto')
+			const workbenchConfig = vscode.workspace.getConfiguration('cpto')
 			if (!workbenchConfig) {
-				mylog(`sendto配置缺失`);
+				mylog(`cpto配置缺失`);
 			} else {
 				const target = workbenchConfig.get('target')
 
 				// check target exist and is dir.
 				if (!target) {
-					mylog(`sendto.target配置缺失`);
+					mylog(`cpto.target配置缺失`);
 				} else {
 					fs.stat(target, (err, stats) => {
 						if (err) {
@@ -59,11 +59,11 @@ function activate(context) {
 									if (err) {
 										mylog(err);
 									} else {
-										doSend(currentlyOpenTabfilePath, target)
+										doCp(currentlyOpenTabfilePath, target)
 									}
 								})
 							} else {
-								doSend(currentlyOpenTabfilePath, target)
+								doCp(currentlyOpenTabfilePath, target)
 							}
 						}
 					})
@@ -115,7 +115,7 @@ function insureHasMeta(filePath, callback = () => { }) {
  * @param  {[type]} target   [description]
  * @return {[type]}          [description]
  */
-function doSend(filePath, target) {
+function doCp(filePath, target) {
 	let cmd = "cp " + filePath + " " + target;
 	cp.exec(cmd, (err, stdout, stderr) => {
 		if (err) {
