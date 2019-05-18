@@ -2,7 +2,7 @@
   "name": "cpto",
   "displayName": "cpto",
   "description": "copy current file to the assigned directory",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "zhuwang",
   "repository": "git@github.com:superevanzhu/vscode-cpto.git",
   "engines": {
@@ -31,8 +31,10 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
     "eslint": "^5.13.0",
-    "fecha": "^3.0.3",
     "typescript": "^3.3.1",
     "vscode": "^1.1.28"
+  },
+  "dependencies": {
+    "fecha": "^3.0.3"
   }
 }
