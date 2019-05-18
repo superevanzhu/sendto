@@ -2,8 +2,9 @@
 	"name": "sendto",
 	"displayName": "sendto",
 	"description": "sendto",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "zhuwang",
+	"repository":"git@github.com:superevanzhu/sendto.git",
 	"engines": {
 		"vscode": "^1.34.0"
 	},
