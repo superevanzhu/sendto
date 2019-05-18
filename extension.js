@@ -9,7 +9,7 @@ const fecha = require("fecha")
 
 
 // 我的日志函数。省的每次都写两行代码啊
-function mylog(info){
+function mylog(info) {
 	console.log(info);
 	vscode.window.showInformationMessage(info);
 }
@@ -36,34 +36,34 @@ function activate(context) {
 
 		if (!currentlyOpenTabfilePath || /^Untitled\-/.test(currentlyOpenTabfilePath)) {
 			mylog(`请先打开一个文件`);
-		}else{
+		} else {
 			const workbenchConfig = vscode.workspace.getConfiguration('sendto')
-			if (!workbenchConfig){
+			if (!workbenchConfig) {
 				mylog(`sendto配置缺失`);
-			}else{
+			} else {
 				const target = workbenchConfig.get('target')
-				
+
 				// check target exist and is dir.
-				if(!target){
+				if (!target) {
 					mylog(`sendto.target配置缺失`);
-				}else{
+				} else {
 					fs.stat(target, (err, stats) => {
 						if (err) {
 							mylog(`${target} ${err ? '不存在' : '存在'}`);
-						} else if (!stats.isDirectory()){
+						} else if (!stats.isDirectory()) {
 							mylog(`${target} 不是目录`);
-						}else{
+						} else {
 							//配置中开启了meta检查。开启，则要确保文章有元信息。
-							if(workbenchConfig.get('meta')){
-								insureHasMeta(currentlyOpenTabfilePath,(err)=>{
-									if(err){
+							if (workbenchConfig.get('meta')) {
+								insureHasMeta(currentlyOpenTabfilePath, (err) => {
+									if (err) {
 										mylog(err);
-									}else{
-										doSend(currentlyOpenTabfilePath,target)
+									} else {
+										doSend(currentlyOpenTabfilePath, target)
 									}
 								})
-							}else{
-								doSend(currentlyOpenTabfilePath,target)
+							} else {
+								doSend(currentlyOpenTabfilePath, target)
 							}
 						}
 					})
@@ -81,32 +81,32 @@ function activate(context) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-function insureHasMeta(filePath, callback=()=>{}) {
-    fs.readFile(filePath, "utf-8", (err, data) => {
-        if (err) {
-            callback(err)
-            return 
-        }
+function insureHasMeta(filePath, callback = () => { }) {
+	fs.readFile(filePath, "utf-8", (err, data) => {
+		if (err) {
+			callback(err)
+			return
+		}
 
-        //如果不包含元信息，需要构建并写在开头
-        if (!(/^\-\-\-[^]*[\r\n]title:[^]*[\r\n]\-\-\-/).test(data)) {
-            let meta = [
-                "---",
-                "title: " + path.basename(filePath, ".md"),
-                "date: " + fecha.format(Date.now(), 'YYYY-MM-DD'),
-                "tags: ",
-                "---",
-            ].join(os.EOL)
+		//如果不包含元信息，需要构建并写在开头
+		if (!(/^\-\-\-[^]*[\r\n]title:[^]*[\r\n]\-\-\-/).test(data)) {
+			let meta = [
+				"---",
+				"title: " + path.basename(filePath, ".md"),
+				"date: " + fecha.format(Date.now(), 'YYYY-MM-DD'),
+				"tags: ",
+				"---",
+			].join(os.EOL)
 
-			fs.writeFile(filePath, meta + os.EOL + data, (err) => {
-                if (err) {
-                	callback(err)
-                }else{
-                	callback(null)
-                }
-            });
-        }
-    })
+			fs.writeFile(filePath, meta + os.EOL + os.EOL + data, (err) => {
+				if (err) {
+					callback(err)
+				} else {
+					callback(null)
+				}
+			});
+		}
+	})
 }
 
 /**
@@ -115,7 +115,7 @@ function insureHasMeta(filePath, callback=()=>{}) {
  * @param  {[type]} target   [description]
  * @return {[type]}          [description]
  */
-function doSend(filePath,target){
+function doSend(filePath, target) {
 	let cmd = "cp " + filePath + " " + target;
 	cp.exec(cmd, (err, stdout, stderr) => {
 		if (err) {
@@ -129,7 +129,7 @@ function doSend(filePath,target){
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
 	activate,

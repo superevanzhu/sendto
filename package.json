@@ -2,7 +2,7 @@
   "name": "sendto",
   "displayName": "sendto",
   "description": "sendto",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "zhuwang",
   "repository": "git@github.com:superevanzhu/sendto.git",
   "engines": {
