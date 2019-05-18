@@ -1,8 +1,8 @@
 {
   "name": "cpto",
   "displayName": "cpto",
-  "description": "cpto",
-  "version": "0.0.6",
+  "description": "copy current file to the assigned directory",
+  "version": "0.0.7",
   "publisher": "zhuwang",
   "repository": "git@github.com:superevanzhu/vscode-cpto.git",
   "engines": {
@@ -19,7 +19,7 @@
     "commands": [
       {
         "command": "extension.cpto",
-        "title": "Copy To"
+        "title": "cpto"
       }
     ]
   },
